@@ -1,10 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "board.h"
 #include "def.h"
 #include "game.h"
+#include "board.h"
 
-bool isStraightLine(char x1, char y1, char x2, char y2){
+
+
+bool isStraightLine(Game gameInPlay, char x1, char y1, char x2, char y2){
 	
 	char high;
 	char low;
@@ -20,7 +22,7 @@ bool isStraightLine(char x1, char y1, char x2, char y2){
 	}
 
 	for(char i = low; i <= high; i++){
-		val = (x1 == x2) ? get(x1, i) : get(i, y1);
+		val = (x1 == x2) ? get(gameInPlay, x1, i) : get(gameInPlay, i, y1);
 
 		if(val != BLANK){
 			return false;
@@ -31,12 +33,12 @@ bool isStraightLine(char x1, char y1, char x2, char y2){
 
 }
 
-bool isDiagonal(char x1, char y1, char x2, char y2){
+bool isDiagonal(Game gameInPlay, char x1, char y1, char x2, char y2){
 	
 	if(x1 - x2 == y1 - y2){
 		for(char i = 0; i <= x1 - x2; i++){
 			
-			if(get(x1 + i, y1 + i) != BLANK){
+			if(get(gameInPlay, x1 + i, y1 + i) != BLANK){
 				return false;
 			}
 			
@@ -55,19 +57,19 @@ bool isLShape(char x1, char y1, char x2, char y2){
 
 }
 
-bool isPawnMove(char x1, char y1, char x2, char y2, bool isBlk){
+bool isPawnMove(Game gameInPlay, char x1, char y1, char x2, char y2, bool isBlk){
 
-	return (((x1 == 1 && isBlk == BLK) || (x1 == 7 && isBlk == WHT)) && (x1 == x2 && y1 + 2 == y2)) || (x1 == x2 && y1 + 1 == y2);
+	return get(gameInPlay, x2, y2) == BLANK && ((((x1 == 1 && isBlk == BLK) || (x1 == 7 && isBlk == WHT)) && (x1 == x2 && y1 + 2 == y2)) || (x1 == x2 && y1 + 1 == y2));
 	
 }
 
-bool isKingMove(char x1, char y1, char x2, char y2){
+bool isKingMove(Game gameInPlay, char x1, char y1, char x2, char y2){
 
 	return abs(x1 - x2) == 1 || abs(y1 - y2) == 1;
 
 }
 
-bool isPawnAtk(bool color, char x1, char y1, char x2, char y2){
+bool isPawnAtk(Game gameInPlay, bool color, char x1, char y1, char x2, char y2){
 	
 	bool sideBoard;
 
@@ -81,12 +83,12 @@ bool isPawnAtk(bool color, char x1, char y1, char x2, char y2){
 	
 	}
 
-	return sideBoard && abs(x1 - x2) == 1 && get(x2, y2) != BLANK;
+	return sideBoard && abs(x1 - x2) == 1 && get(gameInPlay, x2, y2) != BLANK;
 
 }
 
 
-bool isValid(char piece, char x1, char y1, char x2, char y2){
+bool isValid(Game gameInPlay, char piece, char x1, char y1, char x2, char y2){
 
 	bool isBlk = getColor(piece) == BLK;
 
@@ -96,32 +98,32 @@ bool isValid(char piece, char x1, char y1, char x2, char y2){
 		return false;
 	}
 	// MISSING: Check if move is being made by the correct player
-	if(get(x1, y1) == BLANK){
+	if(get(gameInPlay, x1, y1) == BLANK){
 		return false;
 	}
 
-	if(get(x2, y2) != BLANK && getColor(get(x1, y1)) == getColor(get(x2, y2))){
+	if(get(gameInPlay, x2, y2) != BLANK && getColor(get(gameInPlay, x1, y1)) == getColor(get(gameInPlay, x2, y2))){
 		return false;
 	}
 
 	switch(piece){
 		case PAWN:
-			return isPawnMove(x1, y1, x2, y2, isBlk) || isPawnAtk(isBlk, x1, y1, x2, y2);
+			return isPawnMove(gameInPlay, x1, y1, x2, y2, isBlk) || isPawnAtk(gameInPlay, isBlk, x1, y1, x2, y2);
 		break;
 		case KNIGHT:
 			return isLShape(x1, y1, x2, y2);
 		break;
 		case ROOK:
-			return isStraightLine(x1, x2, y1, y2);
+			return isStraightLine(gameInPlay, x1, x2, y1, y2);
 		break;
 		case BISHOP:
-			return isDiagonal(x1, y1, x2, y2);
+			return isDiagonal(gameInPlay, x1, y1, x2, y2);
 		break;
 		case QUEEN:
-			return isStraightLine(x1, y1, x2, y2) || isDiagonal(x1, y1, x2, y2);
+			return isStraightLine(gameInPlay, x1, y1, x2, y2) || isDiagonal(gameInPlay, x1, y1, x2, y2);
 		break;
 		case KING:
-			return isKingMove(x1, y1, x2, y2);
+			return isKingMove(gameInPlay, x1, y1, x2, y2);
 		break;
 		default:
 			printf("Invalid piece. How did that happen?");
@@ -133,13 +135,13 @@ bool isValid(char piece, char x1, char y1, char x2, char y2){
 }
 
 
-void move(char x1, char y1, char x2, char y2){
+void move(Game gameInPlay, char x1, char y1, char x2, char y2){
 
-	char piece = get(x1, y1);
+	char piece = get(gameInPlay, x1, y1);
 
-	if(isValid(piece, x1, y1, x2, y2)){
-		set(piece, x2, y2);
-		erase(x2, y2);
+	if(isValid(gameInPlay, piece, x1, y1, x2, y2)){
+		set(gameInPlay, piece, x2, y2);
+		erase(gameInPlay, x2, y2);
 	}
 	
 }

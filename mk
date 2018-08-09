@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS= -g -O0 -I .
+CFLAGS=-I .
 DEPS = def.h game.h board.h piece.h
 OBJ = test.o game.o board.o piece.o
 

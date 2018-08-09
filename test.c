@@ -4,22 +4,11 @@
 #include "board.h"
 int main(){
 
-	/*
- 	unsigned char** board = newBoard();
+	Game g;
 
-	printBoard(board);
+	newGameObj(&g, "test1");
 
-	erase(board, 0, 4);
-	
-	printf("\n");
-
-	printBoard(board);
-	*/
-
-	//Game_create("test1");
-	printf("hello\n");
-	Game_create("test1");
-getchar();
-return 0;
+	getchar();
+	return 0;
 }
 

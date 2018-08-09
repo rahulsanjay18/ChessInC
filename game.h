@@ -1,15 +1,16 @@
+struct Game{
 
+	unsigned char ** board;
+	char * saveFile;
+	bool isWhiteTurn;
+	bool isCheckmate;
 
-extern unsigned char** gameBoard;
+};
 
-extern char * saveFile;
-
-extern bool isWhiteTurn;
-
-extern bool isCheckmate;
+typedef struct Game Game;
 
 // initializes the game instance
-void Game_create(char * file_name);
+void newGameObj(Game * gameInPlay, char * file_name);
 
 unsigned char * readFile(char * file_name);
 

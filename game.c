@@ -5,25 +5,16 @@
 #include "board.h"
 #include "piece.h"
 
-extern unsigned char** gameBoard;
 
-extern char * saveFile;
-
-extern bool isWhiteTurn;
-
-extern bool isCheckmate;
-
-void Game_init(unsigned char ** boardPtr, char * saveFile, bool isWhiteTurn, bool isCheckMate){
-
-	gameBoard = boardPtr;
-	saveFile = saveFile;
-	isWhiteTurn =  isWhiteTurn;
-	isCheckmate = isCheckMate; 
-
+void initGame(Game * gameInPlay, unsigned char** board, char * file_name, bool isWhtTurn, bool isCheckMate){
+	gameInPlay->board = board;
+	gameInPlay->saveFile = file_name;
+	gameInPlay->isWhiteTurn = isWhtTurn;
+	gameInPlay->isCheckmate = isCheckMate;
 }
 
-void Game_create(char * file_name){
-	printf("Game_create");
+void newGameObj(Game * gameInPlay, char * file_name){
+	
 	bool isWhtTurn;
 	bool isCheckMate;
 	unsigned char ** board; 
@@ -45,7 +36,7 @@ void Game_create(char * file_name){
 		board = newBoard();	
 	}
 
-	Game_init(board, file_name, isWhtTurn, isCheckMate);
+	initGame(gameInPlay, board, file_name, isWhtTurn, isCheckMate);
 
 }
 

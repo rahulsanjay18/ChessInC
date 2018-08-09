@@ -86,11 +86,11 @@ unsigned char** newBoard(){
 }
 
 // outputs the current board
-void printBoard(){
+void printBoard(Game gameInPlay){
 	
 	for(char i = 0; i < 8 ; i++){
 		for(char j = 0; j < 4 ;j++){
-			printf("%x", gameBoard[i][j]);
+			printf("%x", gameInPlay.board[i][j]);
 		}
 		printf("\n");
 	}
@@ -98,48 +98,48 @@ void printBoard(){
 }
 
 // puts a value in a certain position
-void set(char val, char x, char y){
+void set(Game gameInPlay, char val, char x, char y){
 
 	bool isLow = y % 2;
 	y = y / 2;
 	char editedByte;
 
 	if(isLow){
-		editedByte = setLow(gameBoard[x][y], val);
+		editedByte = setLow(gameInPlay.board[x][y], val);
 	}else{
-		editedByte = setHigh(gameBoard[x][y], val);
+		editedByte = setHigh(gameInPlay.board[x][y], val);
 	}
 	
-	gameBoard[x][y] = editedByte;
+	gameInPlay.board[x][y] = editedByte;
 
 }
 
 // returns the value at the location
-char get(char x, char y){
+char get(Game gameInPlay, char x, char y){
 
 	bool isLow = y % 2;
 	y = y / 2;
 
 	if(isLow){
-		return getLow(gameBoard[x][y]);
+		return getLow(gameInPlay.board[x][y]);
 	}else{
-		return getHigh(gameBoard[x][y]);
+		return getHigh(gameInPlay.board[x][y]);
 	}
 
 }
 
 // sets the position in the currentGame.board to a blank value
-void erase(char x, char y){
-	set(BLANK, x, y);
+void erase(Game gameInPlay, char x, char y){
+	set(gameInPlay, BLANK, x, y);
 }
 
 // switches two values in the currentGame.board
-void swap(char x1, char y1, char x2, char y2){
+void swap(Game gameInPlay, char x1, char y1, char x2, char y2){
 	
-	unsigned char pHold = get(x1, y1);
+	unsigned char pHold = get(gameInPlay, x1, y1);
 
-	set(gameBoard[x2][y2], x1, y1);
+	set(gameInPlay, gameInPlay.board[x2][y2], x1, y1);
 
-	set(pHold, x2, y2);
+	set(gameInPlay, pHold, x2, y2);
 
 }
