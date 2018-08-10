@@ -3,6 +3,11 @@
 #include "game.h"
 #include "board.h"
 
+void setupKnightTests(Game g){
+	setBoardBlank(g);
+	set(g, KNIGHT, 3, 3);
+}
+
 void setupPawnTests(Game g, bool isBlk){
 	setBoardBlank(g);
 	if(isBlk){
@@ -10,6 +15,42 @@ void setupPawnTests(Game g, bool isBlk){
 	}else{
 		set(g, PAWN, 0, 1);
 	}
+}
+
+void knightTests(Game g){
+
+	// Up and Right
+	setupKnightTests(g);
+	assert(move(g, 3, 3, 4, 5));
+
+	// Right and Up
+	setupKnightTests(g);
+	assert(move(g, 3, 3, 5, 4));
+
+	// Down and Right
+	setupKnightTests(g);
+	assert(move(g, 3, 3, 5, 2));
+
+	// Right and Down
+	setupKnightTests(g);
+	assert(move(g, 3, 3, 4, 1));
+
+	// Left and Up
+	setupKnightTests(g);
+	assert(move(g, 3, 3, 1, 4));
+
+	// Up and Left
+	setupKnightTests(g);
+	assert(move(g, 3, 3, 2, 5));
+
+	// Left and Down
+	setupKnightTests(g);
+	assert(move(g, 3, 3, 1, 2));
+
+	// Down and Left
+	setupKnightTests(g);
+	assert(move(g, 3, 3, 2, 1));
+
 }
 
 void pawnTests(Game g){
