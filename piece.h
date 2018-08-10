@@ -1,5 +1,5 @@
 
-void move(Game gameInPlay, char x1, char y1, char x2, char y2);
+bool move(Game gameInPlay, char x1, char y1, char x2, char y2);
 bool isValid(Game gameInPlay, char piece, char x1, char y1, char x2, char y2);
 bool isStraightLine(Game gameInPlay, char x1, char y1, char x2, char y2);
 bool isDiagonal(Game gameInPlay, char x1, char y1, char x2, char y2);

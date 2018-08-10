@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "def.h"
 #include "game.h"
+#include "board.h"
 
 unsigned char ** allocateBoardMemory(){
 	// creates a blank 8x8 array
@@ -12,6 +13,14 @@ unsigned char ** allocateBoardMemory(){
 	}
 
 	return board;
+}
+
+void setBoardBlank(Game gameInPlay){
+	for(int i = 0; i < 8; i++){
+		for(int j = 0; j < 4; j++){
+			gameInPlay.board[i][j] = 0;
+		}
+	}
 }
 
 //reads buffer file
@@ -85,6 +94,8 @@ unsigned char** newBoard(){
 	return board;
 }
 
+
+
 // outputs the current board
 void printBoard(Game gameInPlay){
 	
@@ -143,3 +154,4 @@ void swap(Game gameInPlay, char x1, char y1, char x2, char y2){
 	set(gameInPlay, pHold, x2, y2);
 
 }
+

@@ -21,6 +21,11 @@ Board layout:
     a   b   c   d   e   f   g   h
 
 
+Things that immediately come to mind:
+	- a debug mode would be nice (dont care about whose turn it is)
+	- an actual save file mechanism
+	- le passant and castling capabilities
+
 Save File Formatting:
 
 	- Read and Written byte by byte
@@ -46,7 +51,7 @@ Testing Plan:
 		- some sort of break, then moves to test
 		
 
-Things to test:
+Things to test (tentative: some are effectively repeats so they dont need testing):
 - Pieces:
 For each piece, test all moves, failed moves, captures
 	- Pawn (13)
@@ -92,7 +97,7 @@ For each piece, test all moves, failed moves, captures
 		- Move L shape (FAIL)
 	- King (9)
 		- Move one space in every direction (8)
-		- Move 2 spaces forward
+		- Move 2 spaces forward (FAIL)
 	- Other (2)
 		- Capture piece of same color
 		- Move a blank piece

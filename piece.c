@@ -87,25 +87,47 @@ bool isPawnAtk(Game gameInPlay, bool color, char x1, char y1, char x2, char y2){
 
 }
 
+bool isInBounds(char x1, char y1, char x2, char y2){
+	if(x1 < 0 && x1 > 7){
+		return false;
+	}
 
-bool isValid(Game gameInPlay, char piece, char x1, char y1, char x2, char y2){
+	if(x2 < 0 && x2 > 7){
+		return false;
+	}
 
-	bool isBlk = getColor(piece) == BLK;
+	if(y1 < 0 && y1 > 7){
+		return false;
+	}
 
-	piece = getPiece(piece);
+	if(y2 < 0 && y2 > 7){
+		return false;
+	}
 
+	return true;
+}
+
+bool isMoveAble(Game gameInPlay, char x1, char y1, char x2, char y2){
+	// same move
 	if(x1 == x2 && y1 == y2){
 		return false;
 	}
 	// MISSING: Check if move is being made by the correct player
+
+	// there is no piece there
 	if(get(gameInPlay, x1, y1) == BLANK){
 		return false;
 	}
 
+	// if the piece cannot be overriden
 	if(get(gameInPlay, x2, y2) != BLANK && getColor(get(gameInPlay, x1, y1)) == getColor(get(gameInPlay, x2, y2))){
 		return false;
 	}
 
+	return true;
+}
+
+bool canPieceMove(Game gameInPlay, char piece, char x1, char y1, char x2, char y2, bool isBlk){
 	switch(piece){
 		case PAWN:
 			return isPawnMove(gameInPlay, x1, y1, x2, y2, isBlk) || isPawnAtk(gameInPlay, isBlk, x1, y1, x2, y2);
@@ -131,19 +153,30 @@ bool isValid(Game gameInPlay, char piece, char x1, char y1, char x2, char y2){
 	}
 
 	return false;
+}
+
+bool isValid(Game gameInPlay, char piece, char x1, char y1, char x2, char y2){
+
+	bool isBlk = getColor(piece) == BLK;
+
+	piece = getPiece(piece);
+	
+	return isInBounds(x1, y1, x2, y2) && isMoveAble(gameInPlay, x1, y1, x2, y2) && canPieceMove(gameInPlay, piece, x1, y1, x2, y2, isBlk);
 
 }
 
 
-void move(Game gameInPlay, char x1, char y1, char x2, char y2){
+bool move(Game gameInPlay, char x1, char y1, char x2, char y2){
 
 	char piece = get(gameInPlay, x1, y1);
 
 	if(isValid(gameInPlay, piece, x1, y1, x2, y2)){
 		set(gameInPlay, piece, x2, y2);
 		erase(gameInPlay, x2, y2);
+		return true;
 	}
 	
+	return false;
 }
 
 
