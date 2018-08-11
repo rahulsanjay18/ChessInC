@@ -18,7 +18,7 @@ unsigned char ** allocateBoardMemory(){
 void setBoardBlank(Game gameInPlay){
 	for(int i = 0; i < 8; i++){
 		for(int j = 0; j < 4; j++){
-			gameInPlay.board[i][j] = 0;
+			gameInPlay.board[i][j] = (BLANK << 4) + BLANK;
 		}
 	}
 }
@@ -111,30 +111,30 @@ void printBoard(Game gameInPlay){
 // puts a value in a certain position
 void set(Game gameInPlay, char val, char x, char y){
 
-	bool isLow = y % 2;
-	y = y / 2;
+	bool isLow = x % 2;
+	x = x / 2;
 	char editedByte;
 
 	if(isLow){
-		editedByte = setLow(gameInPlay.board[x][y], val);
+		editedByte = setLow(gameInPlay.board[y][x], val);
 	}else{
-		editedByte = setHigh(gameInPlay.board[x][y], val);
+		editedByte = setHigh(gameInPlay.board[y][x], val);
 	}
 	
-	gameInPlay.board[x][y] = editedByte;
+	gameInPlay.board[y][x] = editedByte;
 
 }
 
 // returns the value at the location
 char get(Game gameInPlay, char x, char y){
 
-	bool isLow = y % 2;
-	y = y / 2;
+	bool isLow = x % 2;
+	x = x / 2;
 
 	if(isLow){
-		return getLow(gameInPlay.board[x][y]);
+		return getLow(gameInPlay.board[y][x]);
 	}else{
-		return getHigh(gameInPlay.board[x][y]);
+		return getHigh(gameInPlay.board[y][x]);
 	}
 
 }
@@ -149,7 +149,7 @@ void swap(Game gameInPlay, char x1, char y1, char x2, char y2){
 	
 	unsigned char pHold = get(gameInPlay, x1, y1);
 
-	set(gameInPlay, gameInPlay.board[x2][y2], x1, y1);
+	set(gameInPlay, gameInPlay.board[y2][x2], x1, y1);
 
 	set(gameInPlay, pHold, x2, y2);
 

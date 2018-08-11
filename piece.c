@@ -53,13 +53,24 @@ bool isDiagonal(Game gameInPlay, char x1, char y1, char x2, char y2){
 
 bool isLShape(char x1, char y1, char x2, char y2){
 
-	return (abs(x1 - x2) == 3 && abs(y1 - y2) == 2) || (abs(x1 - x2) == 2 && abs(y1 - y2) == 3);
+	bool xLong = abs(x1 - x2) == 2 && abs(y1 - y2) == 1;
+	bool yLong = abs(x1 - x2) == 1 && abs(y1 - y2) == 2;
+
+	return xLong || yLong;
 
 }
 
 bool isPawnMove(Game gameInPlay, char x1, char y1, char x2, char y2, bool isBlk){
+	
+	bool isStraight = (x1 == x2);
 
-	return get(gameInPlay, x2, y2) == BLANK && ((((x1 == 1 && isBlk == BLK) || (x1 == 7 && isBlk == WHT)) && (x1 == x2 && y1 + 2 == y2)) || (x1 == x2 && y1 + 1 == y2));
+	bool isTwoMove = (((y1 == 1 && !isBlk) && y1 + 2 == y2) || ((y1 == 6 && isBlk)) && y1 - 2 == y2);
+	
+	bool isOneMove = (!isBlk && y1 + 1 == y2) || (isBlk && y1 - 1 == y2);
+	
+	bool isPathClear = get(gameInPlay, x2, y2) == BLANK;
+
+	return isStraight && isPathClear && (isOneMove || isTwoMove);
 	
 }
 
@@ -75,11 +86,11 @@ bool isPawnAtk(Game gameInPlay, bool color, char x1, char y1, char x2, char y2){
 
 	if(color){
 
-		sideBoard = y2 - y1 == 1;
+		sideBoard = y1 - y2 == 1;
 
 	}else{
 
-		sideBoard = y1 - y2 == 1;
+		sideBoard = y2 - y1 == 1;
 	
 	}
 
@@ -128,6 +139,7 @@ bool isMoveAble(Game gameInPlay, char x1, char y1, char x2, char y2){
 }
 
 bool canPieceMove(Game gameInPlay, char piece, char x1, char y1, char x2, char y2, bool isBlk){
+	
 	switch(piece){
 		case PAWN:
 			return isPawnMove(gameInPlay, x1, y1, x2, y2, isBlk) || isPawnAtk(gameInPlay, isBlk, x1, y1, x2, y2);
@@ -148,7 +160,7 @@ bool canPieceMove(Game gameInPlay, char piece, char x1, char y1, char x2, char y
 			return isKingMove(gameInPlay, x1, y1, x2, y2);
 		break;
 		default:
-			printf("Invalid piece. How did that happen?");
+			printf("Invalid piece. How did that happen?\n");
 		break;
 	}
 
@@ -156,8 +168,12 @@ bool canPieceMove(Game gameInPlay, char piece, char x1, char y1, char x2, char y
 }
 
 bool isValid(Game gameInPlay, char piece, char x1, char y1, char x2, char y2){
+	
+	bool isBlk = false;
 
-	bool isBlk = getColor(piece) == BLK;
+	if(piece > BLK){
+		isBlk = true;
+	}
 
 	piece = getPiece(piece);
 	

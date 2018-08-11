@@ -24,8 +24,8 @@ bit 3: define color
 #define setHigh(num, pt) (num & 15) + (pt << 4)
 #define getLow(num) num & 15
 #define getHigh(num) (num & 240) >> 4
-#define getPiece(p) p & 8
-#define getColor(p) p & 7
+#define getPiece(p) p & 7
+#define getColor(p) p & 8
 
 // define bool type
 typedef enum {false,true} bool;

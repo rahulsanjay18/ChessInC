@@ -1,7 +1,20 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "def.h"
 #include "game.h"
+#include "piece.h"
 #include "board.h"
+
+int i = 1;
+
+void assert(bool isPassed){
+	if(!isPassed){
+		printf("Test # %d Failed.\n", i);
+	}else{
+		printf("Test # %d Passed.\n", i);
+	}
+	i++;
+}
 
 void setupKnightTests(Game g){
 	setBoardBlank(g);
@@ -15,103 +28,108 @@ void setupPawnTests(Game g, bool isBlk){
 	}else{
 		set(g, PAWN, 0, 1);
 	}
+
 }
 
 void knightTests(Game g){
 
-	// Up and Right
+	// 14. Up and Right
 	setupKnightTests(g);
 	assert(move(g, 3, 3, 4, 5));
 
-	// Right and Up
+	// 15. Right and Up
 	setupKnightTests(g);
 	assert(move(g, 3, 3, 5, 4));
 
-	// Down and Right
+	// 16. Down and Right
 	setupKnightTests(g);
 	assert(move(g, 3, 3, 5, 2));
 
-	// Right and Down
+	// 17. Right and Down
 	setupKnightTests(g);
 	assert(move(g, 3, 3, 4, 1));
 
-	// Left and Up
+	// 18. Left and Up
 	setupKnightTests(g);
 	assert(move(g, 3, 3, 1, 4));
 
-	// Up and Left
+	// 19. Up and Left
 	setupKnightTests(g);
 	assert(move(g, 3, 3, 2, 5));
 
-	// Left and Down
+	// 20. Left and Down
 	setupKnightTests(g);
 	assert(move(g, 3, 3, 1, 2));
 
-	// Down and Left
+	// 21. Down and Left
 	setupKnightTests(g);
 	assert(move(g, 3, 3, 2, 1));
+
+	// 22. Moved up three steps (FAIL)
+	setupKnightTests(g);
+	assert(!move(g, 3, 3, 3, 6));
 
 }
 
 void pawnTests(Game g){
 
-	// white pawn 1 space
+	// 1. white pawn 1 space
 	setupPawnTests(g, false);
 	assert(move(g, 0, 1, 0, 2));
-
-	// black pawn 1 space
+	
+	// 2. black pawn 1 space
 	setupPawnTests(g, true);
 	assert(move(g, 0, 6, 0, 5));
 
-	// white pawn 2 space
+	// 3. white pawn 2 space
 	setupPawnTests(g, false);
 	assert(move(g, 0, 1, 0, 3));
 
-	// black pawn 2 space
+	// 4. black pawn 2 space
 	setupPawnTests(g, true);
 	assert(move(g, 0, 6, 0, 4));
 
-	// black pawn 1 space at wrong direction (FAIL)
+	// 5. black pawn 1 space at wrong direction (FAIL)
 	setupPawnTests(g, true);
 	assert(!move(g, 0, 6, 0, 7));
 
-	// white pawn 1 space wrong direction (FAIL)
+	// 6. white pawn 1 space wrong direction (FAIL)
 	setupPawnTests(g, true);
 	assert(!move(g, 0, 1, 0, 0));
 
-	// pawn side 1 space (FAIL)
+	// 7. pawn side 1 space (FAIL)
 	setupPawnTests(g, false);
 	assert(!move(g, 0, 1, 1, 1));
 
-	// pawn 2 space wrong place (FAIL)
+	// 8. pawn 2 space wrong place (FAIL)
 	setupPawnTests(g, false);
 	move(g, 0, 1, 0, 2);
 	assert(!move(g, 0, 2, 0, 4));
 
-	// pawn 3 spaces (FAIL)
+	// 9. pawn 3 spaces (FAIL)
 	setupPawnTests(g, false);
 	assert(!move(g, 0, 1, 0, 4));
 
-	// pawn CAPTURE right
+	// 10. pawn CAPTURE right
 	setupPawnTests(g, false);
 	set(g, BISHOP + BLK, 1, 2);
 	assert(move(g, 0, 1, 1, 2));
 
-	// pawn CAPTURE left
+	// 11. pawn CAPTURE left
 	setupPawnTests(g, false);
 	set(g, BISHOP + BLK, 0, 2);
 	set(g, PAWN, 1, 1);
 	assert(move(g, 1, 1, 0, 2));
 
-	// pawn CAPTURE straight 1 space (FAIL)
+	// 12. pawn CAPTURE straight 1 space (FAIL)
 	setupPawnTests(g, false);
 	set(g, BISHOP + BLK, 0, 2);
-	assert(move(g, 0, 1, 0, 2));
+	assert(!move(g, 0, 1, 0, 2));
 
-	// pawn CAPTURE straight 2 space (FAIL)
+	// 13 .pawn CAPTURE straight 2 space (FAIL)
 	setupPawnTests(g, false);
 	set(g, BISHOP + BLK, 0, 3);
-	assert(move(g, 0, 1, 0, 3));
+	assert(!move(g, 0, 1, 0, 3));
 
 }
 
@@ -121,11 +139,9 @@ int main(){
 
 	newGameObj(&g, "test1");
 
-	pawnTests(Game g);
+	pawnTests(g);
+	knightTests(g);
 
-	printBoard(g);
-
-	getchar();
 	return 0;
 }
 
