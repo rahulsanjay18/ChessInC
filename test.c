@@ -21,6 +21,15 @@ void setupKnightTests(Game g){
 	set(g, KNIGHT, 3, 3);
 }
 
+void setupBishopTests(Game g, char x, char y){
+	setBoardBlank(g);
+	set(g, BISHOP, x, y);
+}
+
+void setupRookTests(Game g){
+	setBoardBlank(g);
+	set(g, ROOK, 0, 0);
+}
 void setupPawnTests(Game g, bool isBlk){
 	setBoardBlank(g);
 	if(isBlk){
@@ -29,6 +38,33 @@ void setupPawnTests(Game g, bool isBlk){
 		set(g, PAWN, 0, 1);
 	}
 
+}
+void bishopTests(Game g){
+
+	// 23. iterate from bottom left corner to top right
+
+	// 24. iterate from bottom right corner to top left
+
+	// 25. iterate from top left corner to bottom right
+
+	// 26. iterate from top right corner to bottom left
+
+	// 27. move straight 3 spaces (FAIL)
+
+	// 28. Move to the side 3 spaces (FAIL)
+
+	// 29. Move piece so something is blocking the path (FAIL)
+
+}
+
+void rookTests(Game g){
+	// 30. Iterate from bottom left to bottom right
+
+	// 31. Iterate from bottom left to top left
+
+	// 32. move diagonally 3 spaces (FAIL)
+
+	// 33. move with a piece in the way (FAIL)
 }
 
 void knightTests(Game g){
@@ -141,6 +177,7 @@ int main(){
 
 	pawnTests(g);
 	knightTests(g);
+	bishopTests(g);
 
 	return 0;
 }

@@ -83,7 +83,7 @@ For each piece, test all moves, failed moves, captures
 		- Start at upper-left corner, work up until you reach bottom-right corner (8)
 		- Start at upper-right corner, work up until you reach bottom-left corner (8)
 		- Start at bottom-right corner, work up until you reach upper-left corner (8)
-		- Move piece so another piece is in the way
+		- Move piece where another piece is in the way (FAIL)
 		- Move up 3 spaces (FAIL)
 		- Move right 3 spaces (FAIL)
 		- Move L space (FAIL)
