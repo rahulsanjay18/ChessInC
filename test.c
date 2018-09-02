@@ -42,29 +42,110 @@ void setupPawnTests(Game g, bool isBlk){
 void bishopTests(Game g){
 
 	// 23. iterate from bottom left corner to top right
+	setupBishopTests(g, 0, 7);
+	bool assertVal = true;
+	for(int i = 1; i < 8; i++){
+		if(!move(g, 0, 0, i, 7-i)){
+			assertVal = false;
+			
+		}else{
+			move(g, i, 7-i, 0, 7);
+		}
+		
+	}
+	assert(assertVal);
 
 	// 24. iterate from bottom right corner to top left
+	setupBishopTests(g, 7, 7);
+	assertVal = true;
+	for(int i = 1; i < 8; i++){
+		if(!move(g, 0, 0, 7-i, 7-i)){
+			assertVal = false;
+			
+		}else{
+			move(g,  7-i, 7-i, 7, 7);
+		}
+		
+	}
+	assert(assertVal);
 
 	// 25. iterate from top left corner to bottom right
+	setupBishopTests(g, 0, 0);
+	assertVal = true;
+	for(int i = 1; i < 8; i++){
+		if(!move(g, 0, 0, i, i)){
+			assertVal = false;
+			
+		}else{
+			move(g, i, i, 0, 0);
+		}
+		
+	}
+	assert(assertVal);
 
 	// 26. iterate from top right corner to bottom left
+	setupBishopTests(g, 7, 0);
+	assertVal = true;
+	for(int i = 1; i < 8; i++){
+		if(!move(g, 0, 0, 7-i, i)){
+			assertVal = false;
+			
+		}else{
+			move(g, 7-i, i, 7, 0);
+		}
+		
+	}
+	assert(assertVal);
 
 	// 27. move straight 3 spaces (FAIL)
+	setupBishopTests(g, 0, 0);
+	assert(!move(0, 0, 0, 3));
 
 	// 28. Move to the side 3 spaces (FAIL)
+	setupBishopTests(g, 0, 0);
+	assert(!move(0, 0, 3, 0));
 
 	// 29. Move piece so something is blocking the path (FAIL)
+	setupBishopTests(g, 0, 0);
+	set(PAWN, 1, 1);
+	assert(!move(0, 0, 3, 3));
 
 }
 
 void rookTests(Game g){
 	// 30. Iterate from bottom left to bottom right
+	setupRookTests(g);
+	bool assertVal = true;
+	for(i = 1; i < 8; i++){
+		if(!move(0, 0, 0, i)){
+			assertVal = false;
+		}else{
+			move(0, i , 0, 0);
+		}
+	}
+	assert(assertVal);
+
 
 	// 31. Iterate from bottom left to top left
+	setupRookTests(g);
+	assertVal = true;
+	for(i = 1; i < 8; i++){
+		if(!move(0, 0, i, 0)){
+			assertVal = false;
+		}else{
+			move(i, 0, 0, 0);
+		}
+	}
+	assert(assertVal);
 
 	// 32. move diagonally 3 spaces (FAIL)
+	setupRookTests(g);
+	assert(!move(0, 0, 3, 3));
 
 	// 33. move with a piece in the way (FAIL)
+	setupRookTests(g);
+	set(PAWN, 1, 0);
+	assert(!move(0, 0, 3, 0));
 }
 
 void knightTests(Game g){
