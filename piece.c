@@ -11,19 +11,22 @@ bool isStraightLine(Game gameInPlay, char x1, char y1, char x2, char y2){
 	char high;
 	char low;
 	char val;
+
 	if(x1 == x2){
+
 		high = (y1 > y2) ? y1 : y2;
 		low = (y2 > y1) ? y1 : y2;
 	}else if(y1 == y2){
+		
 		high = (x1 > x2) ? x1 : x2;
-		low = (x2 > x1) ? x2 : x1;
+		low = (x2 > x1) ? x1 : x2;
 	}else{
+
 		return false;
 	}
-
-	for(char i = low; i <= high; i++){
+	
+	for(char i = low + 1; i < high; i++){
 		val = (x1 == x2) ? get(gameInPlay, x1, i) : get(gameInPlay, i, y1);
-
 		if(val != BLANK){
 			return false;
 		}
@@ -34,11 +37,16 @@ bool isStraightLine(Game gameInPlay, char x1, char y1, char x2, char y2){
 }
 
 bool isDiagonal(Game gameInPlay, char x1, char y1, char x2, char y2){
-	
-	if(x1 - x2 == y1 - y2){
-		for(char i = 0; i <= x1 - x2; i++){
-			
-			if(get(gameInPlay, x1 + i, y1 + i) != BLANK){
+	char lenX = (x1 > x2) ? x1 - x2 : x2 - x1;
+	char lenY = (y1 > y2) ? y1 - y2 : y2 - y1;
+
+	if(lenX == lenY){
+		char dx = 0;
+		char dy = 0;
+		for(char i = 1; i < lenX; i++){
+			dx = (x1 > x2) ? x1 - i: x1 + i;
+			dy = (y1 > y2) ? y1 - i: y1 + i;
+			if(get(gameInPlay, dx, dy) != BLANK){
 				return false;
 			}
 			
@@ -148,7 +156,7 @@ bool canPieceMove(Game gameInPlay, char piece, char x1, char y1, char x2, char y
 			return isLShape(x1, y1, x2, y2);
 		break;
 		case ROOK:
-			return isStraightLine(gameInPlay, x1, x2, y1, y2);
+			return isStraightLine(gameInPlay, x1, y1, x2, y2);
 		break;
 		case BISHOP:
 			return isDiagonal(gameInPlay, x1, y1, x2, y2);

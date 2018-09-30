@@ -5,15 +5,20 @@
 #include "piece.h"
 #include "board.h"
 
-int i = 1;
+char i = 1;
 
 void assert(bool isPassed){
 	if(!isPassed){
 		printf("Test # %d Failed.\n", i);
 	}else{
-		printf("Test # %d Passed.\n", i);
+		//printf("Test # %d Passed.\n", i);
 	}
 	i++;
+}
+
+void setupQueenTests(Game g, char x, char y){
+	setBoardBlank(g);
+	set(g, QUEEN, x, y);
 }
 
 void setupKnightTests(Game g){
@@ -44,10 +49,9 @@ void bishopTests(Game g){
 	// 23. iterate from bottom left corner to top right
 	setupBishopTests(g, 0, 7);
 	bool assertVal = true;
-	for(int i = 1; i < 8; i++){
-		if(!move(g, 0, 0, i, 7-i)){
+	for(char i = 1; i < 8; i++){
+		if(!move(g, 0, 7, i, 7-i)){
 			assertVal = false;
-			
 		}else{
 			move(g, i, 7-i, 0, 7);
 		}
@@ -58,8 +62,8 @@ void bishopTests(Game g){
 	// 24. iterate from bottom right corner to top left
 	setupBishopTests(g, 7, 7);
 	assertVal = true;
-	for(int i = 1; i < 8; i++){
-		if(!move(g, 0, 0, 7-i, 7-i)){
+	for(char i = 1; i < 8; i++){
+		if(!move(g, 7, 7, 7-i, 7-i)){
 			assertVal = false;
 			
 		}else{
@@ -72,7 +76,7 @@ void bishopTests(Game g){
 	// 25. iterate from top left corner to bottom right
 	setupBishopTests(g, 0, 0);
 	assertVal = true;
-	for(int i = 1; i < 8; i++){
+	for(char i = 1; i < 8; i++){
 		if(!move(g, 0, 0, i, i)){
 			assertVal = false;
 			
@@ -86,8 +90,8 @@ void bishopTests(Game g){
 	// 26. iterate from top right corner to bottom left
 	setupBishopTests(g, 7, 0);
 	assertVal = true;
-	for(int i = 1; i < 8; i++){
-		if(!move(g, 0, 0, 7-i, i)){
+	for(char i = 1; i < 8; i++){
+		if(!move(g, 7, 0, 7-i, i)){
 			assertVal = false;
 			
 		}else{
@@ -99,16 +103,16 @@ void bishopTests(Game g){
 
 	// 27. move straight 3 spaces (FAIL)
 	setupBishopTests(g, 0, 0);
-	assert(!move(0, 0, 0, 3));
+	assert(!move(g, 0, 0, 0, 3));
 
 	// 28. Move to the side 3 spaces (FAIL)
 	setupBishopTests(g, 0, 0);
-	assert(!move(0, 0, 3, 0));
+	assert(!move(g, 0, 0, 3, 0));
 
 	// 29. Move piece so something is blocking the path (FAIL)
 	setupBishopTests(g, 0, 0);
-	set(PAWN, 1, 1);
-	assert(!move(0, 0, 3, 3));
+	set(g, PAWN, 1, 1);
+	assert(!move(g, 0, 0, 3, 3));
 
 }
 
@@ -116,11 +120,11 @@ void rookTests(Game g){
 	// 30. Iterate from bottom left to bottom right
 	setupRookTests(g);
 	bool assertVal = true;
-	for(i = 1; i < 8; i++){
-		if(!move(0, 0, 0, i)){
+	for(char i = 1; i < 8; i++){
+		if(!move(g, 0, 0, 0, i)){
 			assertVal = false;
 		}else{
-			move(0, i , 0, 0);
+			move(g, 0, i , 0, 0);
 		}
 	}
 	assert(assertVal);
@@ -129,23 +133,23 @@ void rookTests(Game g){
 	// 31. Iterate from bottom left to top left
 	setupRookTests(g);
 	assertVal = true;
-	for(i = 1; i < 8; i++){
-		if(!move(0, 0, i, 0)){
+	for(char i = 1; i < 8; i++){
+		if(!move(g, 0, 0, i, 0)){
 			assertVal = false;
 		}else{
-			move(i, 0, 0, 0);
+			move(g, i, 0, 0, 0);
 		}
 	}
 	assert(assertVal);
 
 	// 32. move diagonally 3 spaces (FAIL)
 	setupRookTests(g);
-	assert(!move(0, 0, 3, 3));
+	assert(!move(g, 0, 0, 3, 3));
 
 	// 33. move with a piece in the way (FAIL)
 	setupRookTests(g);
-	set(PAWN, 1, 0);
-	assert(!move(0, 0, 3, 0));
+	set(g, PAWN, 1, 0);
+	assert(!move(g, 0, 0, 3, 0));
 }
 
 void knightTests(Game g){
@@ -250,7 +254,123 @@ void pawnTests(Game g){
 
 }
 
-int main(){
+void queenTests(Game g){
+	
+	// 34. Iterate from bottom left to bottom right
+	setupQueenTests(g, 0, 0);
+	bool assertVal = true;
+	for(char i = 1; i < 8; i++){
+		if(!move(g, 0, 0, 0, i)){
+			assertVal = false;
+		}else{
+			move(g, 0, i , 0, 0);
+		}
+	}
+	assert(assertVal);
+
+
+	// 35. Iterate from bottom left to top left
+	setupQueenTests(g, 0, 0);
+	assertVal = true;
+	for(char i = 1; i < 8; i++){
+		if(!move(g, 0, 0, i, 0)){
+			assertVal = false;
+		}else{
+			move(g, i, 0, 0, 0);
+		}
+	}
+
+	// 36. iterate from bottom left corner to top right
+	setupQueenTests(g, 0, 7);
+	assertVal = true;
+	for(char i = 1; i < 8; i++){
+		if(!move(g, 0, 7, i, 7-i)){
+			assertVal = false;
+			
+		}else{
+			move(g, i, 7-i, 0, 7);
+		}
+		
+	}
+	assert(assertVal);
+
+	// 37. iterate from bottom right corner to top left
+	setupQueenTests(g, 7, 7);
+	assertVal = true;
+	for(char i = 1; i < 8; i++){
+		if(!move(g, 7, 7, 7-i, 7-i)){
+			assertVal = false;
+			
+		}else{
+			move(g,  7-i, 7-i, 7, 7);
+		}
+		
+	}
+	assert(assertVal);
+
+	// 38. iterate from top left corner to bottom right
+	setupQueenTests(g, 0, 0);
+	assertVal = true;
+	for(char i = 1; i < 8; i++){
+		if(!move(g, 0, 0, i, i)){
+			assertVal = false;
+			
+		}else{
+			move(g, i, i, 0, 0);
+		}
+		
+	}
+	assert(assertVal);
+
+	// 39. iterate from top right corner to bottom left
+	setupQueenTests(g, 7, 0);
+	assertVal = true;
+	for(char i = 1; i < 8; i++){
+		if(!move(g, 7, 0, 7-i, i)){
+			assertVal = false;
+			
+		}else{
+			move(g, 7-i, i, 7, 0);
+		}
+		
+	}
+	assert(assertVal);
+
+	// 40. Up and Right
+	setupQueenTests(g, 3, 3);
+	assert(!move(g, 3, 3, 4, 5));
+
+	// 41. Right and Up
+	setupQueenTests(g, 3, 3);
+	assert(!move(g, 3, 3, 5, 4));
+
+	// 42. Down and Right
+	setupQueenTests(g, 3, 3);
+	assert(!move(g, 3, 3, 5, 2));
+
+	// 43. Right and Down
+	setupQueenTests(g, 3, 3);
+	assert(!move(g, 3, 3, 4, 1));
+
+	// 44. Left and Up
+	setupQueenTests(g, 3, 3);
+	assert(!move(g, 3, 3, 1, 4));
+
+	// 45. Up and Left
+	setupQueenTests(g, 3, 3);
+	assert(!move(g, 3, 3, 2, 5));
+
+	// 46. Left and Down
+	setupQueenTests(g, 3, 3);
+	assert(!move(g, 3, 3, 1, 2));
+
+	// 47. Down and Left
+	setupQueenTests(g, 3, 3);
+	assert(!move(g, 3, 3, 2, 1));
+
+}
+
+char main(){
 
 	Game g;
 
@@ -259,7 +379,8 @@ int main(){
 	pawnTests(g);
 	knightTests(g);
 	bishopTests(g);
-
+	rookTests(g);
+	queenTests(g);
 	return 0;
 }
 
