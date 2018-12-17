@@ -4,7 +4,7 @@
 #include "game.h"
 #include "piece.h"
 #include "board.h"
-
+/*
 char i = 1;
 
 void assert(bool isPassed){
@@ -369,18 +369,17 @@ void queenTests(Game g){
 	assert(!move(g, 3, 3, 2, 1));
 
 }
-
+*/
 char main(){
 
 	Game g;
 
 	newGameObj(&g, "test1");
 
-	pawnTests(g);
-	knightTests(g);
-	bishopTests(g);
-	rookTests(g);
-	queenTests(g);
+	printBoard(g);
+	
+	
+	
 	return 0;
 }
 

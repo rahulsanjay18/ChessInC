@@ -31,6 +31,7 @@ void newGameObj(Game * gameInPlay, char * file_name){
 		board = populateBoard(buffer);
 	}else{
 		//file does not exist, so create the board and populate the object
+		//save_file = fopen(file_name, "w");
 		isWhtTurn = true;
 		isCheckMate = false;
 		board = newBoard();	
@@ -41,7 +42,6 @@ void newGameObj(Game * gameInPlay, char * file_name){
 }
 
 unsigned char * readFile(char * file_name){
-	printf("readFile");
 	FILE * fileptr = fopen(file_name, "rb");
 	fseek(fileptr, 0, SEEK_END);
 	long filelen = ftell(fileptr);
@@ -57,8 +57,12 @@ unsigned char * readFile(char * file_name){
 	return buffer;
 
 }
-//void Game_destroy(Game * self);
+/*void Game_destroy(Game * self){
+	free(self);
+}
 
-//void saveFile();
-
+void saveFile(Game g){
+	unsigned char ** saveData = malloc(8 * sizeof(unsigned char));
+}
+*/
 //void makeMove(char * move);

@@ -98,10 +98,10 @@ unsigned char** newBoard(){
 
 // outputs the current board
 void printBoard(Game gameInPlay){
-	
+	char mapping[16] = "_prbhqk_|PRBHQK";
 	for(char i = 0; i < 8 ; i++){
 		for(char j = 0; j < 4 ;j++){
-			printf("%x", gameInPlay.board[i][j]);
+			printf("%c %c ", mapping[getHigh(gameInPlay.board[i][j])], mapping[getLow(gameInPlay.board[i][j])]) ;
 		}
 		printf("\n");
 	}
