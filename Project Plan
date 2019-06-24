@@ -35,13 +35,13 @@ Save File Formatting:
 		- Then, the next sequence of bytes (likely a max of 8) gives each of the locations they are on (1 byte)
 	- Then moves to execute (for testing only):
 		- 1 byte each, move this pos to this pos
-	
+
 	Example of new game (showing the first piece):
-		
+
 		00000001 <- Says its white's move and there is no checkmate
-		
+
 		00000001 00000001 00010001 00100001 00110001 01000001 01010001 01100001 01110001 11111111<- white pawn
-		   /\       /\       /\       /\       /\       /\       /\       /\       /\       /\    
+		   /\       /\       /\       /\       /\       /\       /\       /\       /\       /\
 		wht pawn x(0)y(1) x(1)y(1) x(2)y(1) x(3)y(1) x(4)y(1) x(5)y(1) x(6)y(1) x(7)y(1) end byte
 
 Testing Plan:
@@ -49,9 +49,9 @@ Testing Plan:
 	- Use files to write test board layouts
 		- give location pair (letter, #) & character
 		- some sort of break, then moves to test
-		
 
-Things to test (tentative: some are effectively repeats so they dont need testing):
+
+Things to test (tentative: some are effectively repeats so they don't need testing):
 - Pieces:
 For each piece, test all moves, failed moves, captures
 	- Pawn (13)
@@ -101,5 +101,5 @@ For each piece, test all moves, failed moves, captures
 	- Other (2)
 		- Capture piece of same color
 		- Move a blank piece
-		
+
 Total: 136
